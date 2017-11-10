@@ -3,8 +3,8 @@ pragma solidity ^0.4.15;
 import './ERC20.sol';
 import './SafeMath.sol';
 
-contract StepanToken2 is ERC20{
-    using SafeMath for uint256;
+contract StepanToken2 is SafeMath, ERC20 {
+
    
     address public ownerFirst;
     address public ownerSecond;
@@ -26,10 +26,10 @@ contract StepanToken2 is ERC20{
        ownerFirst = _ownerFirst;
        ownerSecond = _ownerSecond;
        
-       balances[ownerFirst] = SafeMath.div(totalTokens, 3);
-       balances[ownerSecond] = SafeMath.sub(totalTokens, balances[ownerFirst]);
+       balances[ownerFirst] = safeDiv(totalTokens, 3);
+       balances[ownerSecond] = safeSub(totalTokens, balances[ownerFirst]);
     //    balances[ownerFirst] -= 10;
-       checkSum = SafeMath.add(balances[ownerFirst], balances[ownerSecond]);
+       checkSum = safeAdd(balances[ownerFirst], balances[ownerSecond]);
 
        if(checkSum != totalTokens){
            balances[ownerFirst] = totalTokens;
@@ -51,18 +51,18 @@ contract StepanToken2 is ERC20{
      
      
     function transfer(address _to, uint _value)  returns (bool success){
-            require(balances[msg.sender] >= _value && _value > 0 && SafeMath.add(balances[_to], _value) > balances[_to]);
-                balances[msg.sender] = SafeMath.sub(balances[msg.sender],_value);
-                balances[_to] = SafeMath.add(balances[_to], _value);
+            require(balances[msg.sender] >= _value && _value > 0 && safeAdd(balances[_to], _value) > balances[_to]);
+                balances[msg.sender] = safeSub(balances[msg.sender],_value);
+                balances[_to] = safeAdd(balances[_to], _value);
                 Transfer(msg.sender,  _to, _value);
                 return true;     
     }
     
     function transferFrom(address _from, address _to, uint _value) returns (bool success){
-        require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0 && SafeMath.add(balances[_to], _value) > 0);
-            balances[_from] = SafeMath.sub(balances[_from], _value);
-            allowed[_from][msg.sender] = SafeMath.sub(allowed[_from][msg.sender], _value);
-            balances[_to] = SafeMath.add(balances[_to], _value);
+        require(balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0 && safeAdd(balances[_to], _value) > 0);
+            balances[_from] = safeSub(balances[_from], _value);
+            allowed[_from][msg.sender] = safeSub(allowed[_from][msg.sender], _value);
+            balances[_to] = safeAdd(balances[_to], _value);
             Transfer(_from, _to, _value);
             return true;
     }
