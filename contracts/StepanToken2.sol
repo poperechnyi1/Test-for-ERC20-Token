@@ -36,9 +36,6 @@ contract StepanToken2 is SafeMath, ERC20 {
            balances[ownerSecond] = 0;
        }
 
-
-
-
     }
     
     function totalSupply() constant returns (uint256 totalSupply){
