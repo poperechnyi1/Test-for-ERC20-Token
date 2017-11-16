@@ -39,7 +39,7 @@ contract("Testing ERC20 Contract with two parameters", function(accounts){
         ).then(function(result){
             console.log(result.toNumber());
         });
-    })
+    });
 
     // it("Should send coin correctly", function() {
     //     var meta;
